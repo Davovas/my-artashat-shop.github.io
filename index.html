@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <style>
+	/* CSS стили */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #242424; /* Цвет фона страницы */
+}
+
+header {
+    background-color: #000000;
+    color: #fff;
+    padding: 20px;
+}
+
+header nav ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+header nav ul li {
+    display: inline;
+    margin-right: 20px;
+}
+
+header nav ul li a {
+    color: #FFFFFF;
+    text-decoration: none;
+}
+
+main {
+    padding: 20px;
+}
+
+.products {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    grid-gap: 20px;
+}
+
+.product {
+    border: 1px solid #ccc;
+    padding: 20px;
+}
+
+.price-image {
+    background-image: url('https://ke-images.servicecdn.ru/cfuslpql6k7q3rnkhvs0/original.jpg');
+    background-size: contain; /* Изображение вписывается в размер блока */
+    background-repeat: no-repeat; /* Запрет повторения изображения */
+    background-position: left; /* Позиция изображения по центру блока */
+    border: 0px solid #000000; /* Цвет обводки */
+    border-radius: 13px; /* Радиус краев */
+    height: 250px; /* Высота блока с изображением */
+    width: 190px; /* Ширина блока с изображением */
+    margin-top: 10px; /* Отступ сверху */
+}
+
+
+/* Стили для кнопки "Стрелка вверх" */
+.scroll-to-top {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background-color: #000000;
+    color: #fff;
+    border: none;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    font-size: 20px;
+    line-height: 40px;
+    text-align: center;
+    cursor: pointer;
+    display: none; /* По умолчанию скрываем кнопку */
+}
+
+/* Стили для модального окна */
+.modal {
+    display: none; /* По умолчанию скрываем модальное окно */
+    position: fixed; /* Фиксированное положение окна */
+    z-index: 1; /* Находится выше всех остальных элементов */
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto; /* Добавляем полосу прокрутки, если содержимое не помещается */
+    background-color: rgba(0,0,0,0.4); /* Прозрачность фона */
+}
+
+/* Контент модального окна */
+.modal-content {
+    background-color: #fefefe;
+    margin: 15% auto; /* Выравнивание по центру */
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%; /* Ширина контента */
+}
+
+/* Закрыть кнопку */
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ArtashatShop</title>
+</head>
+<body>
+    <header>
+        <h1 style='color: #FFFF00'>ArtashatShop</h1>
+        <nav>
+            <ul>
+                <li><a href="#" id="home-link">Главная</a></li>
+                <li><a href="#">Каталог</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <section class="products">
+            <!-- Пример товара -->
+            <div class="product">
+                <h2 style='color: #FFFFFF'>Borner PM-X MAKAROV</h2>
+                
+                <p style='color: #FFFFFF'>Пневматический пистолет Borner PM-X - это мощное и надежное оружие для ценителей качества и превосходной производительности. Изготовленный из ударопрочного полимера, он обеспечивает прочность и долговечность при использовании.</p>
+                
+                <!-- Блок с изображением (добавляем класс "modal-click" для обработки клика) -->
+                <div class="price-image modal-click"></div> 
+                
+                <button class="order-button" style="background-color: #FFFF00; color: #000000; padding: 10px 5px; border: none; border-radius: 5px; cursor: pointer;" onclick="openModal()">ЗАКАЗАТЬ ПРЯМО СЕЙЧАС</button>
+                <h3 style='color: #FFFFFF'>35.900֏</h3>
+			</div>
+        </section>
+		
+    </main>
+    <footer>
+        <p>© 2024 интернет-магазин ArtashatShop. Все права защищены.</p>
+    </footer>
+    <!-- Кнопка "Стрелка вверх" -->
+    <button class="scroll-to-top" onclick="scrollToTop()">↑</button>
+    <!-- Модальное окно -->
+    <div id="myModal" class="modal">
+        <div class="modal-content" style="background-color: #0a0a0a; border-radius: 10px;">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <h1 style="color: #FFFFFF;">Оформление заказа</h1>
+            <form id="order-form">
+                <p style="color: #FFFFFF">Позвоните на ниже указанный номер и сообщите, что хотите купить. После пополните баланс указанной карты на сумму, равную стоимости вашего товара (сумму вам также сообщит наш оператор). После оплаты через 7 дней товар будет у вас. Доставка работает только в пределах города Арташат (Armenia): бесплатно.</p>
+                <p style="color: #FFFFFF">Номер Телефона: +37494589952</p>
+                <p style="color: #FFFFFF">Номер Карты: 2204 3001 0226 7428</p>
+                <button id="submit-order" onclick="submitOrder()" style="background-color: #00FF00; color: #000000; border: none; border-radius: 10px; width: 100px; height: 30px; font-size: 16px;">Готово</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // JavaScript код для перезагрузки страницы при нажатии на ссылку "Главная"
+        document.getElementById('home-link').addEventListener('click', function(event) {
+            event.preventDefault(); // Предотвращаем переход по ссылке
+            location.reload(); // Перезагружаем страницу
+        });
+
+        // JavaScript код для кнопки "Стрелка вверх"
+        window.onscroll = function() {scrollFunction()};
+
+        function scrollFunction() {
+            if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+                document.querySelector(".scroll-to-top").style.display = "block";
+            } else {
+                document.querySelector(".scroll-to-top").style.display = "none";
+            }
+        }
+
+        function scrollToTop() {
+            document.body.scrollTop = 0; // Для Safari
+            document.documentElement.scrollTop = 0; // Для Chrome, Firefox, IE и Opera
+        }
+
+        // JavaScript код для модального окна
+        var modal = document.getElementById("myModal");
+
+        // Открыть модальное окно
+        function openModal() {
+            modal.style.display = "block";
+        }
+
+        // Закрыть модальное окно
+        function closeModal() {
+            modal.style.display = "none";
+        }
+
+        // Обработчик события для кнопки "Заказать прямо сейчас"
+        document.querySelector(".order-button").addEventListener("click", function() {
+            openModal(); // Отображаем модальное окно при нажатии на кнопку
+        });
+
+        // Обработчик события для кнопки "Готово" в модальном окне
+        function submitOrder() {
+            closeModal(); // Закрываем модальное окно
+        }
+    </script>
+</body>
+</html>
